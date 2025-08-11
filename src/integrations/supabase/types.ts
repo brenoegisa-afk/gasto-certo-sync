@@ -385,6 +385,16 @@ export type Database = {
         Args: { target_user_id: string }
         Returns: undefined
       }
+      execute_transfer: {
+        Args: {
+          p_user_id: string
+          p_from_conta: string
+          p_to_conta: string
+          p_valor: number
+          p_descricao: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       account_type: "corrente" | "poupanca" | "carteira" | "externa"
