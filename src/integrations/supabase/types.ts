@@ -228,6 +228,42 @@ export type Database = {
         }
         Relationships: []
       }
+      telegram_config: {
+        Row: {
+          ativo: boolean
+          bot_username: string | null
+          created_at: string
+          id: string
+          telegram_chat_id: string | null
+          telegram_token: string
+          updated_at: string
+          user_id: string
+          webhook_url: string | null
+        }
+        Insert: {
+          ativo?: boolean
+          bot_username?: string | null
+          created_at?: string
+          id?: string
+          telegram_chat_id?: string | null
+          telegram_token: string
+          updated_at?: string
+          user_id: string
+          webhook_url?: string | null
+        }
+        Update: {
+          ativo?: boolean
+          bot_username?: string | null
+          created_at?: string
+          id?: string
+          telegram_chat_id?: string | null
+          telegram_token?: string
+          updated_at?: string
+          user_id?: string
+          webhook_url?: string | null
+        }
+        Relationships: []
+      }
       transacoes: {
         Row: {
           cartao_id: string | null

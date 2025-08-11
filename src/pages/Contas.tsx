@@ -23,7 +23,7 @@ interface Conta {
 
 interface ContaForm {
   nome: string;
-  tipo: string;
+  tipo: 'corrente' | 'poupanca' | 'carteira' | 'externa';
   saldo_inicial: number;
   limite?: number;
   moeda: string;
@@ -39,7 +39,7 @@ export default function Contas() {
   const [editingConta, setEditingConta] = useState<Conta | null>(null);
   const [formData, setFormData] = useState<ContaForm>({
     nome: '',
-    tipo: 'corrente',
+    tipo: 'corrente' as const,
     saldo_inicial: 0,
     limite: undefined,
     moeda: 'BRL',
@@ -124,7 +124,7 @@ export default function Contas() {
     setEditingConta(conta);
     setFormData({
       nome: conta.nome,
-      tipo: conta.tipo,
+      tipo: conta.tipo as 'corrente' | 'poupanca' | 'carteira' | 'externa',
       saldo_inicial: conta.saldo_inicial,
       limite: conta.limite,
       moeda: conta.moeda,
@@ -205,7 +205,7 @@ export default function Contas() {
 
               <div>
                 <Label htmlFor="tipo">Tipo</Label>
-                <Select value={formData.tipo} onValueChange={(value) => setFormData({...formData, tipo: value})}>
+                <Select value={formData.tipo} onValueChange={(value) => setFormData({...formData, tipo: value as 'corrente' | 'poupanca' | 'carteira' | 'externa'})}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>

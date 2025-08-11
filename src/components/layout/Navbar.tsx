@@ -12,21 +12,22 @@ import {
   Settings,
   LogOut,
   Plus,
-  ArrowLeftRight
+  ArrowLeftRight,
+  Bot
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 const navigationItems = [
-  { name: 'Dashboard', href: '/', icon: Home },
+  { name: 'Dashboard', href: '/dashboard', icon: Home },
   { name: 'Contas', href: '/contas', icon: Wallet },
   { name: 'Cartões', href: '/cartoes', icon: CreditCard },
-  { name: 'Relatórios', href: '/relatorios', icon: TrendingUp },
+  { name: 'Transações', href: '/transacoes', icon: ArrowLeftRight },
+  { name: 'Telegram', href: '/telegram', icon: Bot },
 ];
 
 const quickActions = [
-  { name: 'Nova Transação', href: '/transacao', icon: Plus, variant: 'default' as const },
-  { name: 'Transferir', href: '/transferencia', icon: ArrowLeftRight, variant: 'outline' as const },
+  { name: 'Nova Transação', href: '/transacoes', icon: Plus, variant: 'default' as const },
 ];
 
 export function Navbar() {

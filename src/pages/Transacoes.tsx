@@ -40,7 +40,7 @@ interface Categoria {
 }
 
 interface TransacaoForm {
-  tipo: string;
+  tipo: 'despesa' | 'receita' | 'transferencia';
   valor: number;
   descricao: string;
   data_transacao: string;
@@ -61,7 +61,7 @@ export default function Transacoes() {
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [formData, setFormData] = useState<TransacaoForm>({
-    tipo: 'despesa',
+    tipo: 'despesa' as const,
     valor: 0,
     descricao: '',
     data_transacao: new Date().toISOString().split('T')[0],
@@ -98,7 +98,7 @@ export default function Transacoes() {
       if (cartoesRes.error) throw cartoesRes.error;
       if (categoriasRes.error) throw categoriasRes.error;
 
-      setTransacoes(transacoesRes.data || []);
+      setTransacoes((transacoesRes.data as any) || []);
       setContas(contasRes.data || []);
       setCartoes(cartoesRes.data || []);
       setCategorias(categoriasRes.data || []);
@@ -240,7 +240,7 @@ export default function Transacoes() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Label htmlFor="tipo">Tipo</Label>
-                <Select value={formData.tipo} onValueChange={(value) => setFormData({...formData, tipo: value})}>
+                <Select value={formData.tipo} onValueChange={(value) => setFormData({...formData, tipo: value as 'despesa' | 'receita' | 'transferencia'})}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
