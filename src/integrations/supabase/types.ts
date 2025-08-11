@@ -14,16 +14,385 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cartoes: {
+        Row: {
+          ativo: boolean
+          bandeira: string
+          created_at: string
+          dia_fechamento: number
+          dia_vencimento: number
+          fechamento_offset: number | null
+          id: string
+          limite: number
+          nome: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ativo?: boolean
+          bandeira: string
+          created_at?: string
+          dia_fechamento: number
+          dia_vencimento: number
+          fechamento_offset?: number | null
+          id?: string
+          limite: number
+          nome: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ativo?: boolean
+          bandeira?: string
+          created_at?: string
+          dia_fechamento?: number
+          dia_vencimento?: number
+          fechamento_offset?: number | null
+          id?: string
+          limite?: number
+          nome?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      categorias: {
+        Row: {
+          cor: string | null
+          created_at: string
+          icone: string | null
+          id: string
+          nome: string
+          tipo: Database["public"]["Enums"]["category_type"]
+          user_id: string
+        }
+        Insert: {
+          cor?: string | null
+          created_at?: string
+          icone?: string | null
+          id?: string
+          nome: string
+          tipo: Database["public"]["Enums"]["category_type"]
+          user_id: string
+        }
+        Update: {
+          cor?: string | null
+          created_at?: string
+          icone?: string | null
+          id?: string
+          nome?: string
+          tipo?: Database["public"]["Enums"]["category_type"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      contas: {
+        Row: {
+          compartilhada: boolean
+          created_at: string
+          id: string
+          limite: number | null
+          moeda: string
+          nome: string
+          saldo_atual: number
+          saldo_inicial: number
+          tipo: Database["public"]["Enums"]["account_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          compartilhada?: boolean
+          created_at?: string
+          id?: string
+          limite?: number | null
+          moeda?: string
+          nome: string
+          saldo_atual?: number
+          saldo_inicial?: number
+          tipo?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          compartilhada?: boolean
+          created_at?: string
+          id?: string
+          limite?: number | null
+          moeda?: string
+          nome?: string
+          saldo_atual?: number
+          saldo_inicial?: number
+          tipo?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      contas_partilhadas: {
+        Row: {
+          conta_id: string
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+          user_id: string
+        }
+        Insert: {
+          conta_id: string
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          user_id: string
+        }
+        Update: {
+          conta_id?: string
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contas_partilhadas_conta_id_fkey"
+            columns: ["conta_id"]
+            isOneToOne: false
+            referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faturas_cartao: {
+        Row: {
+          cartao_id: string
+          created_at: string
+          data_fim: string
+          data_inicio: string
+          id: string
+          status: string
+          valor_total: number
+        }
+        Insert: {
+          cartao_id: string
+          created_at?: string
+          data_fim: string
+          data_inicio: string
+          id?: string
+          status?: string
+          valor_total?: number
+        }
+        Update: {
+          cartao_id?: string
+          created_at?: string
+          data_fim?: string
+          data_inicio?: string
+          id?: string
+          status?: string
+          valor_total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faturas_cartao_cartao_id_fkey"
+            columns: ["cartao_id"]
+            isOneToOne: false
+            referencedRelation: "cartoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          nome: string | null
+          telegram_id: string | null
+          telegram_username: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nome?: string | null
+          telegram_id?: string | null
+          telegram_username?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nome?: string | null
+          telegram_id?: string | null
+          telegram_username?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      transacoes: {
+        Row: {
+          cartao_id: string | null
+          categoria_id: string | null
+          conta_destino_id: string | null
+          conta_id: string | null
+          data_registro: string
+          data_transacao: string
+          descricao: string
+          id: string
+          metadata: Json | null
+          parcela_num: number | null
+          parcelas_total: number | null
+          referencia_parcela_id: string | null
+          status: Database["public"]["Enums"]["transaction_status"]
+          tipo: Database["public"]["Enums"]["transaction_type"]
+          user_id: string
+          valor: number
+        }
+        Insert: {
+          cartao_id?: string | null
+          categoria_id?: string | null
+          conta_destino_id?: string | null
+          conta_id?: string | null
+          data_registro?: string
+          data_transacao?: string
+          descricao: string
+          id?: string
+          metadata?: Json | null
+          parcela_num?: number | null
+          parcelas_total?: number | null
+          referencia_parcela_id?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"]
+          tipo: Database["public"]["Enums"]["transaction_type"]
+          user_id: string
+          valor: number
+        }
+        Update: {
+          cartao_id?: string | null
+          categoria_id?: string | null
+          conta_destino_id?: string | null
+          conta_id?: string | null
+          data_registro?: string
+          data_transacao?: string
+          descricao?: string
+          id?: string
+          metadata?: Json | null
+          parcela_num?: number | null
+          parcelas_total?: number | null
+          referencia_parcela_id?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"]
+          tipo?: Database["public"]["Enums"]["transaction_type"]
+          user_id?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transacoes_cartao_id_fkey"
+            columns: ["cartao_id"]
+            isOneToOne: false
+            referencedRelation: "cartoes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transacoes_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transacoes_conta_destino_id_fkey"
+            columns: ["conta_destino_id"]
+            isOneToOne: false
+            referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transacoes_conta_id_fkey"
+            columns: ["conta_id"]
+            isOneToOne: false
+            referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transfers: {
+        Row: {
+          data: string
+          from_conta: string
+          id: string
+          to_conta: string
+          transacao_entrada_id: string
+          transacao_saida_id: string
+          user_id: string
+          valor: number
+        }
+        Insert: {
+          data?: string
+          from_conta: string
+          id?: string
+          to_conta: string
+          transacao_entrada_id: string
+          transacao_saida_id: string
+          user_id: string
+          valor: number
+        }
+        Update: {
+          data?: string
+          from_conta?: string
+          id?: string
+          to_conta?: string
+          transacao_entrada_id?: string
+          transacao_saida_id?: string
+          user_id?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transfers_from_conta_fkey"
+            columns: ["from_conta"]
+            isOneToOne: false
+            referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transfers_to_conta_fkey"
+            columns: ["to_conta"]
+            isOneToOne: false
+            referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transfers_transacao_entrada_id_fkey"
+            columns: ["transacao_entrada_id"]
+            isOneToOne: false
+            referencedRelation: "transacoes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transfers_transacao_saida_id_fkey"
+            columns: ["transacao_saida_id"]
+            isOneToOne: false
+            referencedRelation: "transacoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_default_categories: {
+        Args: { target_user_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
-      [_ in never]: never
+      account_type: "corrente" | "poupanca" | "carteira" | "externa"
+      card_status: "ativo" | "inativo"
+      category_type: "despesa" | "receita"
+      transaction_status: "pendente" | "confirmado"
+      transaction_type: "despesa" | "receita" | "transferencia"
+      user_role: "owner" | "editor" | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +519,13 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      account_type: ["corrente", "poupanca", "carteira", "externa"],
+      card_status: ["ativo", "inativo"],
+      category_type: ["despesa", "receita"],
+      transaction_status: ["pendente", "confirmado"],
+      transaction_type: ["despesa", "receita", "transferencia"],
+      user_role: ["owner", "editor", "viewer"],
+    },
   },
 } as const
