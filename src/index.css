@@ -8,7 +8,8 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 248 250 252;
+    /* Modern color palette - sóbria e harmônica */
+    --background: 250 251 252;
     --foreground: 15 23 42;
 
     --card: 255 255 255;
@@ -17,57 +18,67 @@ All colors MUST be HSL.
     --popover: 255 255 255;
     --popover-foreground: 15 23 42;
 
-    --primary: 34 197 94;
+    /* Primary: Azul moderno e confiável */
+    --primary: 59 130 246;
     --primary-foreground: 255 255 255;
-    --primary-glow: 74 222 128;
+    --primary-glow: 96 165 250;
 
+    /* Secondary: Cinza suave */
     --secondary: 241 245 249;
     --secondary-foreground: 51 65 85;
 
     --muted: 248 250 252;
     --muted-foreground: 100 116 139;
 
-    --accent: 59 130 246;
+    /* Accent: Verde moderno */
+    --accent: 16 185 129;
     --accent-foreground: 255 255 255;
 
     --destructive: 239 68 68;
     --destructive-foreground: 255 255 255;
 
-    --success: 34 197 94;
+    /* Success: Verde esmeralda */
+    --success: 16 185 129;
     --success-foreground: 255 255 255;
 
+    /* Warning: Âmbar suave */
     --warning: 245 158 11;
     --warning-foreground: 255 255 255;
 
-    --border: 226 232 240;
-    --input: 226 232 240;
-    --ring: 34 197 94;
+    --border: 229 231 235;
+    --input: 229 231 235;
+    --ring: 59 130 246;
 
-    --radius: 0.75rem;
+    --radius: 0.875rem;
 
-    /* Financial app specific colors */
-    --finance-green: 34 197 94;
-    --finance-green-dark: 21 128 61;
+    /* Financial app specific colors - paleta moderna */
+    --finance-green: 16 185 129;
+    --finance-green-dark: 5 150 105;
     --finance-blue: 59 130 246;
     --finance-blue-dark: 37 99 235;
     --finance-red: 239 68 68;
     --finance-orange: 245 158 11;
     --finance-purple: 139 92 246;
+    --finance-teal: 20 184 166;
+    --finance-indigo: 99 102 241;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--finance-green)), hsl(var(--finance-blue)));
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(248 250 252));
-    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(var(--primary-glow)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--finance-green) / 0.1), hsl(var(--finance-blue) / 0.1));
+    /* Gradients modernos e suaves */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--finance-blue)), hsl(var(--finance-teal)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--background)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(var(--finance-green-dark)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--finance-blue) / 0.05), hsl(var(--finance-teal) / 0.05));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--finance-teal)));
 
-    /* Shadows */
-    --shadow-card: 0 4px 6px -1px hsl(var(--foreground) / 0.1), 0 2px 4px -1px hsl(var(--foreground) / 0.06);
-    --shadow-card-hover: 0 10px 15px -3px hsl(var(--foreground) / 0.1), 0 4px 6px -2px hsl(var(--foreground) / 0.05);
-    --shadow-finance: 0 10px 30px -10px hsl(var(--finance-green) / 0.3);
+    /* Shadows suaves e modernas */
+    --shadow-card: 0 1px 3px 0 hsl(var(--foreground) / 0.1), 0 1px 2px -1px hsl(var(--foreground) / 0.1);
+    --shadow-card-hover: 0 10px 25px -3px hsl(var(--foreground) / 0.1), 0 4px 6px -2px hsl(var(--foreground) / 0.05);
+    --shadow-finance: 0 10px 30px -10px hsl(var(--finance-blue) / 0.25);
+    --shadow-elegant: 0 20px 25px -5px hsl(var(--foreground) / 0.1), 0 10px 10px -5px hsl(var(--foreground) / 0.04);
 
-    /* Animations */
+    /* Animations suaves */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-fast: all 0.15s ease-out;
 
     --sidebar-background: 0 0% 98%;
 
@@ -131,6 +142,71 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: 'cv03', 'cv04', 'cv11';
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Better focus outlines */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2;
+  }
+
+  /* Modern scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
+  }
+
+  /* Container utilities */
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Typography improvements */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-3xl lg:text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl lg:text-3xl;
+  }
+
+  h3 {
+    @apply text-xl lg:text-2xl;
+  }
+
+  /* Button hover animations */
+  .btn-hover {
+    @apply transition-all duration-200 hover:scale-105 hover:shadow-lg;
+  }
+
+  /* Card hover animations */
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  /* Gradient text utility */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary via-accent to-finance-teal bg-clip-text text-transparent;
   }
 }

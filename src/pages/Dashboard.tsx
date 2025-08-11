@@ -151,205 +151,273 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="container mx-auto p-4 space-y-6">
-      {/* Welcome Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold">Olá! 👋</h1>
-          <p className="text-muted-foreground">Aqui está um resumo das suas finanças</p>
-        </div>
-        <div className="flex gap-2">
-          <Button asChild className="bg-gradient-primary hover:opacity-90">
-            <Link to="/transacao">
-              <Plus className="w-4 h-4 mr-2" />
-              Nova Transação
-            </Link>
-          </Button>
-        </div>
-      </div>
-
-      {/* Financial Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Total Balance */}
-        <FinancialCard variant="gradient">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-white/80 text-sm">Saldo Total</p>
-                <div className="flex items-center gap-2">
-                  <p className="text-2xl font-bold text-white">
-                    {showBalance ? formatCurrency(data.saldoTotal) : '••••••'}
-                  </p>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowBalance(!showBalance)}
-                    className="text-white hover:bg-white/20 p-1 h-auto"
-                  >
-                    {showBalance ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                  </Button>
-                </div>
-              </div>
-              <Wallet className="w-8 h-8 text-white/80" />
-            </div>
-          </CardContent>
-        </FinancialCard>
-
-        {/* Accounts */}
-        <FinancialCard>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm">Contas</p>
-                <p className="text-2xl font-bold">{data.totalContas}</p>
-              </div>
-              <Wallet className="w-8 h-8 text-finance-blue" />
-            </div>
-          </CardContent>
-        </FinancialCard>
-
-        {/* Credit Cards */}
-        <FinancialCard>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm">Cartões</p>
-                <p className="text-2xl font-bold">{data.totalCartoes}</p>
-              </div>
-              <CreditCard className="w-8 h-8 text-finance-purple" />
-            </div>
-          </CardContent>
-        </FinancialCard>
-
-        {/* Monthly Balance */}
-        <FinancialCard 
-          variant={data.receitasMes - data.despesasMes >= 0 ? "success" : "danger"}
-        >
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-white/80 text-sm">Balanço do Mês</p>
-                <p className="text-2xl font-bold text-white">
-                  {formatCurrency(data.receitasMes - data.despesasMes)}
-                </p>
-              </div>
-              {data.receitasMes - data.despesasMes >= 0 ? (
-                <TrendingUp className="w-8 h-8 text-white/80" />
-              ) : (
-                <TrendingDown className="w-8 h-8 text-white/80" />
-              )}
-            </div>
-          </CardContent>
-        </FinancialCard>
-      </div>
-
-      {/* Monthly Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Income vs Expenses */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5" />
-              Resumo do Mês
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-success/10 rounded-lg">
-              <div className="flex items-center gap-3">
-                <ArrowUpRight className="w-5 h-5 text-success" />
-                <span className="font-medium">Receitas</span>
-              </div>
-              <span className="font-bold text-success">{formatCurrency(data.receitasMes)}</span>
-            </div>
-            <div className="flex items-center justify-between p-4 bg-destructive/10 rounded-lg">
-              <div className="flex items-center gap-3">
-                <ArrowDownRight className="w-5 h-5 text-destructive" />
-                <span className="font-medium">Despesas</span>
-              </div>
-              <span className="font-bold text-destructive">{formatCurrency(data.despesasMes)}</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Recent Transactions */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Transações Recentes</CardTitle>
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/transacoes">Ver Todas</Link>
-            </Button>
-          </CardHeader>
-          <CardContent>
-            {data.transacoesRecentes.length > 0 ? (
-              <div className="space-y-3">
-                {data.transacoesRecentes.map((transacao) => (
-                  <div
-                    key={transacao.id}
-                    className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
-                  >
-                    <div className="flex items-center gap-3">
-                      {getTransactionIcon(transacao.tipo)}
-                      <div>
-                        <p className="font-medium text-sm">{transacao.descricao}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {transacao.categorias?.nome} • {formatDate(transacao.data_transacao)}
-                        </p>
-                      </div>
-                    </div>
-                    <span className={`font-bold text-sm ${
-                      transacao.tipo === 'receita' ? 'text-success' : 'text-destructive'
-                    }`}>
-                      {transacao.tipo === 'receita' ? '+' : '-'}{formatCurrency(parseFloat(transacao.valor.toString()))}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <p className="text-muted-foreground">Nenhuma transação encontrada</p>
-                <Button asChild variant="outline" size="sm" className="mt-2">
-                  <Link to="/transacao">Adicionar Primeira Transação</Link>
-                </Button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Ações Rápidas</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Button asChild variant="outline" className="h-20 flex-col gap-2">
-              <Link to="/contas">
-                <Wallet className="w-6 h-6" />
-                <span>Gerenciar Contas</span>
+    <div className="min-h-screen bg-gradient-hero">
+      <div className="container mx-auto p-4 lg:p-8 space-y-8">
+        {/* Welcome Header */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <h1 className="text-3xl lg:text-4xl font-bold gradient-text">
+              Olá! 👋
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Aqui está um resumo das suas finanças
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button asChild className="bg-gradient-primary hover:opacity-90 btn-hover shadow-finance">
+              <Link to="/transacoes">
+                <Plus className="w-4 h-4 mr-2" />
+                Nova Transação
               </Link>
             </Button>
-            <Button asChild variant="outline" className="h-20 flex-col gap-2">
-              <Link to="/cartoes">
-                <CreditCard className="w-6 h-6" />
-                <span>Gerenciar Cartões</span>
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="h-20 flex-col gap-2">
-              <Link to="/transferencia">
-                <ArrowUpRight className="w-6 h-6" />
-                <span>Transferir</span>
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="h-20 flex-col gap-2">
+            <Button asChild variant="outline" className="btn-hover">
               <Link to="/relatorios">
-                <TrendingUp className="w-6 h-6" />
-                <span>Relatórios</span>
+                <TrendingUp className="w-4 h-4 mr-2" />
+                Relatórios
               </Link>
             </Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        {/* Financial Overview Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Total Balance */}
+          <FinancialCard variant="gradient" className="card-hover">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between">
+                <div className="space-y-2">
+                  <p className="text-white/90 text-sm font-medium">Saldo Total</p>
+                  <div className="flex items-center gap-3">
+                    <p className="text-3xl font-bold text-white">
+                      {showBalance ? formatCurrency(data.saldoTotal) : '••••••'}
+                    </p>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowBalance(!showBalance)}
+                      className="text-white hover:bg-white/20 p-2 h-auto rounded-full transition-fast"
+                    >
+                      {showBalance ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+                <div className="p-3 bg-white/20 rounded-2xl">
+                  <Wallet className="w-8 h-8 text-white" />
+                </div>
+              </div>
+            </CardContent>
+          </FinancialCard>
+
+          {/* Accounts */}
+          <FinancialCard className="card-hover">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between">
+                <div className="space-y-2">
+                  <p className="text-muted-foreground text-sm font-medium">Contas Ativas</p>
+                  <p className="text-3xl font-bold">{data.totalContas}</p>
+                  <Button asChild variant="ghost" size="sm" className="text-xs p-0 h-auto text-primary hover:no-underline">
+                    <Link to="/contas">Gerenciar →</Link>
+                  </Button>
+                </div>
+                <div className="p-3 bg-finance-blue/10 rounded-2xl">
+                  <Wallet className="w-8 h-8 text-finance-blue" />
+                </div>
+              </div>
+            </CardContent>
+          </FinancialCard>
+
+          {/* Credit Cards */}
+          <FinancialCard className="card-hover">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between">
+                <div className="space-y-2">
+                  <p className="text-muted-foreground text-sm font-medium">Cartões</p>
+                  <p className="text-3xl font-bold">{data.totalCartoes}</p>
+                  <Button asChild variant="ghost" size="sm" className="text-xs p-0 h-auto text-primary hover:no-underline">
+                    <Link to="/cartoes">Gerenciar →</Link>
+                  </Button>
+                </div>
+                <div className="p-3 bg-finance-purple/10 rounded-2xl">
+                  <CreditCard className="w-8 h-8 text-finance-purple" />
+                </div>
+              </div>
+            </CardContent>
+          </FinancialCard>
+
+          {/* Monthly Balance */}
+          <FinancialCard 
+            variant={data.receitasMes - data.despesasMes >= 0 ? "success" : "danger"}
+            className="card-hover"
+          >
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between">
+                <div className="space-y-2">
+                  <p className="text-white/90 text-sm font-medium">Balanço do Mês</p>
+                  <p className="text-3xl font-bold text-white">
+                    {formatCurrency(data.receitasMes - data.despesasMes)}
+                  </p>
+                </div>
+                <div className="p-3 bg-white/20 rounded-2xl">
+                  {data.receitasMes - data.despesasMes >= 0 ? (
+                    <TrendingUp className="w-8 h-8 text-white" />
+                  ) : (
+                    <TrendingDown className="w-8 h-8 text-white" />
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </FinancialCard>
+      </div>
+
+        {/* Monthly Summary */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Income vs Expenses */}
+          <Card className="card-hover shadow-card">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-3 text-xl">
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <TrendingUp className="w-5 h-5 text-primary" />
+                </div>
+                Resumo do Mês
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between p-6 bg-gradient-to-r from-success/10 to-success/5 rounded-2xl border border-success/20">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-success/20 rounded-xl">
+                    <ArrowUpRight className="w-6 h-6 text-success" />
+                  </div>
+                  <div>
+                    <span className="font-semibold text-lg">Receitas</span>
+                    <p className="text-sm text-muted-foreground">Este mês</p>
+                  </div>
+                </div>
+                <span className="font-bold text-xl text-success">{formatCurrency(data.receitasMes)}</span>
+              </div>
+              <div className="flex items-center justify-between p-6 bg-gradient-to-r from-destructive/10 to-destructive/5 rounded-2xl border border-destructive/20">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-destructive/20 rounded-xl">
+                    <ArrowDownRight className="w-6 h-6 text-destructive" />
+                  </div>
+                  <div>
+                    <span className="font-semibold text-lg">Despesas</span>
+                    <p className="text-sm text-muted-foreground">Este mês</p>
+                  </div>
+                </div>
+                <span className="font-bold text-xl text-destructive">{formatCurrency(data.despesasMes)}</span>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Recent Transactions */}
+          <Card className="card-hover shadow-card">
+            <CardHeader className="flex flex-row items-center justify-between pb-4">
+              <CardTitle className="flex items-center gap-3 text-xl">
+                <div className="p-2 bg-accent/10 rounded-lg">
+                  <DollarSign className="w-5 h-5 text-accent" />
+                </div>
+                Transações Recentes
+              </CardTitle>
+              <Button variant="outline" size="sm" asChild className="btn-hover">
+                <Link to="/transacoes">
+                  Ver Todas
+                  <ArrowUpRight className="w-4 h-4 ml-1" />
+                </Link>
+              </Button>
+            </CardHeader>
+            <CardContent>
+              {data.transacoesRecentes.length > 0 ? (
+                <div className="space-y-4">
+                  {data.transacoesRecentes.map((transacao) => (
+                    <div
+                      key={transacao.id}
+                      className="flex items-center justify-between p-4 bg-gradient-to-r from-muted/50 to-muted/20 rounded-xl border border-muted hover:shadow-md transition-all duration-200"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="p-2 bg-background rounded-lg shadow-sm">
+                          {getTransactionIcon(transacao.tipo)}
+                        </div>
+                        <div className="space-y-1">
+                          <p className="font-semibold text-sm">{transacao.descricao}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {transacao.categorias?.nome} • {formatDate(transacao.data_transacao)}
+                          </p>
+                        </div>
+                      </div>
+                      <span className={`font-bold text-lg ${
+                        transacao.tipo === 'receita' ? 'text-success' : 'text-destructive'
+                      }`}>
+                        {transacao.tipo === 'receita' ? '+' : '-'}{formatCurrency(parseFloat(transacao.valor.toString()))}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="p-4 bg-muted/50 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                    <DollarSign className="w-8 h-8 text-muted-foreground" />
+                  </div>
+                  <p className="text-muted-foreground mb-4">Nenhuma transação encontrada</p>
+                  <Button asChild variant="outline" size="sm" className="btn-hover">
+                    <Link to="/transacoes">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Adicionar Primeira Transação
+                    </Link>
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+      </div>
+
+        {/* Quick Actions */}
+        <Card className="card-hover shadow-card">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-3 text-xl">
+              <div className="p-2 bg-finance-teal/10 rounded-lg">
+                <Plus className="w-5 h-5 text-finance-teal" />
+              </div>
+              Ações Rápidas
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Button asChild variant="outline" className="h-24 flex-col gap-3 btn-hover group">
+                <Link to="/contas">
+                  <div className="p-3 bg-finance-blue/10 rounded-xl group-hover:bg-finance-blue/20 transition-colors">
+                    <Wallet className="w-6 h-6 text-finance-blue" />
+                  </div>
+                  <span className="font-medium">Gerenciar Contas</span>
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="h-24 flex-col gap-3 btn-hover group">
+                <Link to="/cartoes">
+                  <div className="p-3 bg-finance-purple/10 rounded-xl group-hover:bg-finance-purple/20 transition-colors">
+                    <CreditCard className="w-6 h-6 text-finance-purple" />
+                  </div>
+                  <span className="font-medium">Gerenciar Cartões</span>
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="h-24 flex-col gap-3 btn-hover group">
+                <Link to="/transacoes">
+                  <div className="p-3 bg-success/10 rounded-xl group-hover:bg-success/20 transition-colors">
+                    <ArrowUpRight className="w-6 h-6 text-success" />
+                  </div>
+                  <span className="font-medium">Nova Transação</span>
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="h-24 flex-col gap-3 btn-hover group">
+                <Link to="/telegram">
+                  <div className="p-3 bg-finance-teal/10 rounded-xl group-hover:bg-finance-teal/20 transition-colors">
+                    <TrendingUp className="w-6 h-6 text-finance-teal" />
+                  </div>
+                  <span className="font-medium">Telegram Bot</span>
+                </Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
