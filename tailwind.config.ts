@@ -68,7 +68,9 @@ export default {
 					'blue-dark': 'hsl(var(--finance-blue-dark))',
 					red: 'hsl(var(--finance-red))',
 					orange: 'hsl(var(--finance-orange))',
-					purple: 'hsl(var(--finance-purple))'
+					purple: 'hsl(var(--finance-purple))',
+					teal: 'hsl(var(--finance-teal))',
+					indigo: 'hsl(var(--finance-indigo))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',

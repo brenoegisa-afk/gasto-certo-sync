@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { FinancialCard } from '@/components/ui/financial-card';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Wallet, 
   CreditCard, 
@@ -14,10 +15,14 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Eye,
-  EyeOff
+  EyeOff,
+  BarChart3,
+  Settings,
+  Grid3X3
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import ResourceOverview from '@/components/dashboard/ResourceOverview';
 
 interface DashboardData {
   totalContas: number;
@@ -157,10 +162,10 @@ export default function Dashboard() {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2">
             <h1 className="text-3xl lg:text-4xl font-bold gradient-text">
-              Olá! 👋
+              Gasto Certo 💰
             </h1>
             <p className="text-lg text-muted-foreground">
-              Aqui está um resumo das suas finanças
+              Sistema completo de gestão financeira pessoal
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
@@ -171,13 +176,28 @@ export default function Dashboard() {
               </Link>
             </Button>
             <Button asChild variant="outline" className="btn-hover">
-              <Link to="/relatorios">
+              <Link to="/telegram">
                 <TrendingUp className="w-4 h-4 mr-2" />
-                Relatórios
+                Bot Telegram
               </Link>
             </Button>
           </div>
         </div>
+
+        {/* Dashboard Tabs */}
+        <Tabs defaultValue="overview" className="space-y-8">
+          <TabsList className="grid w-full grid-cols-2 lg:w-fit lg:grid-cols-2 bg-card shadow-card">
+            <TabsTrigger value="overview" className="flex items-center gap-2">
+              <BarChart3 className="w-4 h-4" />
+              Visão Geral
+            </TabsTrigger>
+            <TabsTrigger value="resources" className="flex items-center gap-2">
+              <Grid3X3 className="w-4 h-4" />
+              Recursos do Sistema
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="space-y-8">
 
         {/* Financial Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -417,6 +437,12 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
+        </TabsContent>
+
+        <TabsContent value="resources">
+          <ResourceOverview />
+        </TabsContent>
+      </Tabs>
       </div>
     </div>
   );
