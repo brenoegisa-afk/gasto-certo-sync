@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { AdminPanel } from '@/components/AdminPanel';
+import { useAdmin } from '@/hooks/useAdmin';
 import { Button } from '@/components/ui/button';
 import { 
   CheckCircle, 
@@ -122,6 +124,7 @@ const resources: ResourceItem[] = [
 ];
 
 export default function ResourceOverview() {
+  const { isAdmin, loading } = useAdmin();
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed':

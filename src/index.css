@@ -8,27 +8,27 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Modern color palette - sóbria e harmônica */
-    --background: 250 251 252;
-    --foreground: 15 23 42;
+    /* Modern Dark theme inspired by the images */
+    --background: 15 23 42;
+    --foreground: 248 250 252;
 
-    --card: 255 255 255;
-    --card-foreground: 15 23 42;
+    --card: 30 41 59;
+    --card-foreground: 248 250 252;
 
-    --popover: 255 255 255;
-    --popover-foreground: 15 23 42;
+    --popover: 30 41 59;
+    --popover-foreground: 248 250 252;
 
-    /* Primary: Azul moderno e confiável */
-    --primary: 59 130 246;
-    --primary-foreground: 255 255 255;
-    --primary-glow: 96 165 250;
+    /* Primary: Teal moderno como nas imagens */
+    --primary: 20 184 166;
+    --primary-foreground: 15 23 42;
+    --primary-glow: 45 212 191;
 
-    /* Secondary: Cinza suave */
-    --secondary: 241 245 249;
-    --secondary-foreground: 51 65 85;
+    /* Secondary: Cinza dark */
+    --secondary: 51 65 85;
+    --secondary-foreground: 226 232 240;
 
-    --muted: 248 250 252;
-    --muted-foreground: 100 116 139;
+    --muted: 51 65 85;
+    --muted-foreground: 148 163 184;
 
     /* Accent: Verde moderno */
     --accent: 16 185 129;
@@ -45,9 +45,9 @@ All colors MUST be HSL.
     --warning: 245 158 11;
     --warning-foreground: 255 255 255;
 
-    --border: 229 231 235;
-    --input: 229 231 235;
-    --ring: 59 130 246;
+    --border: 51 65 85;
+    --input: 51 65 85;
+    --ring: 20 184 166;
 
     --radius: 0.875rem;
 
@@ -62,12 +62,13 @@ All colors MUST be HSL.
     --finance-teal: 20 184 166;
     --finance-indigo: 99 102 241;
 
-    /* Gradients modernos e suaves */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--finance-blue)), hsl(var(--finance-teal)));
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--background)));
-    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(var(--finance-green-dark)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--finance-blue) / 0.05), hsl(var(--finance-teal) / 0.05));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--finance-teal)));
+    /* Gradients modernos como nas imagens */
+    --gradient-primary: linear-gradient(135deg, hsl(20 184 166), hsl(59 130 246));
+    --gradient-card: linear-gradient(145deg, hsl(30 41 59), hsl(51 65 85));
+    --gradient-success: linear-gradient(135deg, hsl(16 185 129), hsl(5 150 105));
+    --gradient-hero: linear-gradient(135deg, hsl(15 23 42), hsl(30 41 59));
+    --gradient-accent: linear-gradient(135deg, hsl(139 92 246), hsl(99 102 241));
+    --gradient-danger: linear-gradient(135deg, hsl(239 68 68), hsl(220 38 127));
 
     /* Shadows suaves e modernas */
     --shadow-card: 0 1px 3px 0 hsl(var(--foreground) / 0.1), 0 1px 2px -1px hsl(var(--foreground) / 0.1);
